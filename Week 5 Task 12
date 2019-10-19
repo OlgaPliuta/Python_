@@ -1,0 +1,21 @@
+Дана строка. Выведите слово, которое в этой строке встречается чаще всего. 
+Если таких слов несколько, выведите то, которое меньше в лексикографическом (алфавитном) порядке.
+
+words=input().split()
+
+D={}
+
+for w in words:
+    D[w] = D.get(w, 0) + 1
+
+m=max(D.values())
+D1={}
+a=set()
+
+list_keys = list(D.keys())
+list_keys.sort()
+
+for j in list_keys:
+    if D[j]==m and len(a)==0:
+        a.add(j)
+print(*sorted(a))    
