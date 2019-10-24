@@ -1,0 +1,80 @@
+Считать одной строкой произвольное количество пар элементов "Название книги Число экземпляров", второй строкой название алгоритма хеширования md5
+Aibolit 66 Barmaley 67
+md5
+
+Создать 2 класса:
+1-й преобразует строку вида 'Aibolit 66 Babmaley 67', где название книги уникально, в словарь.
+2-й осуществляет хеширования названия книги алгоритмом md5.
+Вывести отдельными операторами вывода: 
+- элементы словаря, отсортированные по возрастанию ключа, например: 
+Aibolit 66
+Barmaley 67
+- результаты хеширования в виде пар названия алгоритма и результатов хеширования ключей, отсортированных по возрастанию, представленных в шестнадцатеричном виде, сведенных в одну строку через пробел вида 
+md5 c47.... md5 5d....' (без пробелов в начале и конце строки). 
+
+Пример входных данных:
+Aibolit 66 Barmaley 67
+md5
+
+Пример выходных данных:
+Aibolit 66
+Barmaley 67
+md5 768414e20f688934976716d717e7986b md5 96b0e4c581d12e5014c6b443e770c460
+
+
+
+import hashlib
+
+class A(object):
+    def strToDict(self, str):
+        str = str.split()
+        Dct = {}
+        keys=str[::2]
+        values=str[1::2]
+        for i in range(len(keys)):
+            Dct[keys[i]]=values[i]
+        list_keys = list(Dct.keys())
+        list_keys.sort()
+        DctSorted={}
+        for i in list_keys:
+            DctSorted[i]=Dct[i]
+        for j in DctSorted.keys():
+            print(j,DctSorted[j])
+        return DctSorted
+
+class B(object):
+    def hashing(self,DctSorted,strHash):
+        a=[]
+        for k in DctSorted.keys():
+            if strHash=='md5':
+                hashed=hashlib.md5(k.encode())
+                a=a+[hashed.hexdigest()]
+            if strHash=='sha256':
+                hashed=hashlib.sha256(k.encode())
+                a=a+[hashed.hexdigest()]
+            if strHash=='sha1':
+                hashed=hashlib.sha1(k.encode())
+                a=a+[hashed.hexdigest()]
+            if strHash == 'sha224':
+                hashed = hashlib.sha224(k.encode())
+                a = a + [hashed.hexdigest()]
+            if strHash == 'sha384':
+                hashed = hashlib.sha384(k.encode())
+                a = a + [hashed.hexdigest()]
+            if strHash == 'sha512':
+                hashed = hashlib.sha512(k.encode())
+                a = a + [hashed.hexdigest()]
+        for m in a[:len(a)-1:]:
+            print(strHash, m, end=" ")
+        print(strHash, a[len(a)-1])
+        return a
+
+class AB(A,B):
+    pass
+
+books=input()
+hashCode=input()
+
+ab=AB()
+la=ab.strToDict(books)
+ab.hashing(la,hashCode)
